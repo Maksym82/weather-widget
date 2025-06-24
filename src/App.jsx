@@ -4,13 +4,33 @@ import "./index.css";
 const KEY = "d1d542ef821e44edb2383113252406";
 
 function App() {
+  const [city, setCity] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
+
+  useEffect(() => {
+    async function getData() {
+      const res = await fetch(
+        "http://api.weatherapi.com/v1/current.json?key=d1d542ef821e44edb2383113252406&q=Paris"
+      );
+
+      const data = await res.json();
+      console.log(data);
+      setWeatherData(data);
+    }
+    getData();
+  }, []);
+console.log(weatherData);
   return (
     <div className="app">
       <div className="widget-container">
         <div className="weather-card-container">
           <h1 className="app-title">Weather Widget</h1>
           <div className="search-container">
-            <input type="text" placeholder="Enter city name" className="search-input" />
+            <input
+              type="text"
+              placeholder="Enter city name"
+              className="search-input"
+            />
           </div>
         </div>
         <div className="weather-card">
