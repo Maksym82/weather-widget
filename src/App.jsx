@@ -4,22 +4,21 @@ import "./index.css";
 const KEY = "d1d542ef821e44edb2383113252406";
 
 function App() {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("London");
   const [weatherData, setWeatherData] = useState(null);
 
   useEffect(() => {
     async function getData() {
       const res = await fetch(
-        "http://api.weatherapi.com/v1/current.json?key=d1d542ef821e44edb2383113252406&q=Paris"
+        `http://api.weatherapi.com/v1/current.json?key=${KEY}&q=${city}`
       );
 
       const data = await res.json();
-      console.log(data);
       setWeatherData(data);
     }
     getData();
   }, []);
-console.log(weatherData);
+  console.log(weatherData);
   return (
     <div className="app">
       <div className="widget-container">
@@ -33,8 +32,9 @@ console.log(weatherData);
             />
           </div>
         </div>
+
         <div className="weather-card">
-          <h2>Moscow, Russia</h2>
+          <h2>{`${weatherData?.location.name}, ${weatherData?.location.country}`}</h2>
           <img src="" alt="icon" className="weather-icon" />
           <p className="temperature">11°C</p>
           <p className="condition">rainy</p>
