@@ -4,28 +4,34 @@ import "./index.css";
 const KEY = "d1d542ef821e44edb2383113252406";
 
 function App() {
-  const [city, setCity] = useState("my");
+  const [city, setCity] = useState("London");
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function getData() {
-      try{    const res = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=${KEY}&q=${city}`
-      );
-      if (!res.ok) {
-        throw new Error(`${res.status} ${res.statusText}`);
-      }
-      const data = await res.json();
-      setWeatherData(data);}
-      catch(err) {
-        console.log(err);
+      try {
+        const res = await fetch(
+          `http://api.weatherapi.com/v1/current.json?key=${KEY}&q=${city}`
+        );
+        // if (!res.ok) {
+        //   throw new Error(`${res.status} ${res.statusText}`);
+        // }
+        const data = await res.json();
+        console.log(data);
+        if (data.error) {
+          setError(data.error.message);
+        }
+
+        
+        setWeatherData(data);
+      } catch (err) {
         setError(err.message);
       }
     }
     getData();
   }, []);
-  console.log(weatherData);
+
   return (
     <div className="app">
       <div className="widget-container">
