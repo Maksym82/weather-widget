@@ -4,17 +4,24 @@ import "./index.css";
 const KEY = "d1d542ef821e44edb2383113252406";
 
 function App() {
-  const [city, setCity] = useState("London");
+  const [city, setCity] = useState("my");
   const [weatherData, setWeatherData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function getData() {
-      const res = await fetch(
+      try{    const res = await fetch(
         `http://api.weatherapi.com/v1/current.json?key=${KEY}&q=${city}`
       );
-
+      if (!res.ok) {
+        throw new Error(`${res.status} ${res.statusText}`);
+      }
       const data = await res.json();
-      setWeatherData(data);
+      setWeatherData(data);}
+      catch(err) {
+        console.log(err);
+        setError(err.message);
+      }
     }
     getData();
   }, []);
@@ -23,7 +30,7 @@ function App() {
     <div className="app">
       <div className="widget-container">
         <div className="weather-card-container">
-          <h1 className="app-title">Weather Widget</h1>
+          <h1 className="app-title">{error}Weather Widget</h1>
           <div className="search-container">
             <input
               type="text"
@@ -34,7 +41,7 @@ function App() {
         </div>
 
         <div className="weather-card">
-          <h2>{`${weatherData?.location.name}, ${weatherData?.location.country}`}</h2>
+          <h2>{`${weatherData?.location?.name}, ${weatherData?.location?.country}`}</h2>
           <img src="" alt="icon" className="weather-icon" />
           <p className="temperature">11°C</p>
           <p className="condition">rainy</p>
