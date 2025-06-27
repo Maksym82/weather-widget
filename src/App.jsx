@@ -45,9 +45,7 @@ function App() {
         const res = await fetch(
           `http://api.weatherapi.com/v1/current.json?key=${KEY}&q=${query}`
         );
-        // if (!res.ok) {
-        //   throw new Error(`${res.status} ${res.statusText}`);
-        // }
+
         const data = await res.json();
 
         if (data.error) {
