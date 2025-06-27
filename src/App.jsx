@@ -4,7 +4,7 @@ import "./index.css";
 const KEY = "d1d542ef821e44edb2383113252406";
 
 function App() {
-  const [city, setCity] = useState("Kherson");
+  const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -29,7 +29,7 @@ function App() {
       }
     }
     getData();
-  }, []);
+  }, [city]);
   console.log(weatherData);
   return (
     <div className="app">
@@ -39,9 +39,10 @@ function App() {
           <div className="search-container">
             <input
               type="text"
+              value={city}
               placeholder="Enter city name"
               className="search-input"
-            />
+            onChange={(e)=> setCity(e.target.value)}/>
           </div>
         </div>
 
